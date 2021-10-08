@@ -1,2 +1,4 @@
-package TwitterAnalysis;public class Test {
+package TwitterAnalysis;
+
+public class Test {
 }
