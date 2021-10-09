@@ -28,8 +28,13 @@ public class FullArchiveSearch {
         String bearerToken = "AAAAAAAAAAAAAAAAAAAAAB0BUgEAAAAAFP%2FBMfx6jCiTJE%2FEvHgt9C9Jnm4%3DeIXDOLSo5gH9gIls4YWpF25sW52LxqDpxvk29lMN6kZYtkkzPD";
         if (null != bearerToken) {
             //Replace the search term with a term of your choice
-            String response = search("from:TwitterDev", bearerToken);
-            System.out.println(response);
+            String query = "(asian hate crime OR racism OR BLM) -is:retweet -is:reply";
+            String expansion = "author_id";
+            String placeF = "contained_within,country,country_code,full_name,geo,id,name,place_type";
+            String tweetF = "geo";
+            String userF = "location";
+            String response = search(query, "100",expansion, placeF,tweetF, userF, bearerToken);
+            System.out.print(response);
         } else {
             System.out.println("There was a problem getting your bearer token. Please make sure you set the BEARER_TOKEN environment variable");
         }
@@ -38,7 +43,10 @@ public class FullArchiveSearch {
     /*
      * This method calls the full-archive search endpoint with a the search term passed to it as a query parameter
      * */
-    private static String search(String searchString, String bearerToken) throws IOException, URISyntaxException {
+    public static String search(String searchString, String maxResult,
+                                 String expansions, String placeFields,
+                                 String tweetFields, String userFields,
+                                 String bearerToken) throws IOException, URISyntaxException {
         String searchResponse = null;
 
         HttpClient httpClient = HttpClients.custom()
@@ -50,6 +58,12 @@ public class FullArchiveSearch {
         ArrayList<NameValuePair> queryParameters;
         queryParameters = new ArrayList<>();
         queryParameters.add(new BasicNameValuePair("query", searchString));
+        queryParameters.add(new BasicNameValuePair("max_results", maxResult));
+        queryParameters.add(new BasicNameValuePair("expansions", expansions));
+        queryParameters.add(new BasicNameValuePair("place.fields", placeFields));
+        queryParameters.add(new BasicNameValuePair("tweet.fields", tweetFields));
+        queryParameters.add(new BasicNameValuePair("user.fields", userFields));
+
         uriBuilder.addParameters(queryParameters);
 
         HttpGet httpGet = new HttpGet(uriBuilder.build());
