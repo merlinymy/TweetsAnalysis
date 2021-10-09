@@ -25,10 +25,10 @@ public class FullArchiveSearch {
     // export 'BEARER_TOKEN'='<your_bearer_token>'
 
     public static void main(String args[]) throws IOException, URISyntaxException {
-        String bearerToken = System.getenv("BEARER_TOKEN");
+        String bearerToken = "AAAAAAAAAAAAAAAAAAAAAB0BUgEAAAAAFP%2FBMfx6jCiTJE%2FEvHgt9C9Jnm4%3DeIXDOLSo5gH9gIls4YWpF25sW52LxqDpxvk29lMN6kZYtkkzPD";
         if (null != bearerToken) {
             //Replace the search term with a term of your choice
-            String response = search("from:TwitterDev OR from:SnowBotDev OR from:DailyNASA", bearerToken);
+            String response = search("from:TwitterDev", bearerToken);
             System.out.println(response);
         } else {
             System.out.println("There was a problem getting your bearer token. Please make sure you set the BEARER_TOKEN environment variable");
@@ -46,7 +46,7 @@ public class FullArchiveSearch {
                         .setCookieSpec(CookieSpecs.STANDARD).build())
                 .build();
 
-        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/all");
+        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/recent");
         ArrayList<NameValuePair> queryParameters;
         queryParameters = new ArrayList<>();
         queryParameters.add(new BasicNameValuePair("query", searchString));
